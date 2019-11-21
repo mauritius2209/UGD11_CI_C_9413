@@ -87,5 +87,14 @@
                 'error' => TRUE,
             ];
         }
+
+        public function verify($request){
+            $user = $this->db->select('*')->where(array('email' => $request->email))->get($this->table)->row_array();
+            if(!empty($user) && password_verify($request->password, $user['password'])){
+                return $user;
+            }else{
+                return false;
+            }
+        }
     }
 ?>
